@@ -1022,11 +1022,8 @@ def defaultSerialize(obj, buf, lineLength):
         keys = sorted(obj.params.keys())
         for key in keys:
             paramstr = ','.join(dquoteEscape(p) for p in obj.params[key])
-            s.write(";{0}={1}".format(key, paramstr))
-        try:
-            s.write(":{0}".format(obj.value))
-        except (UnicodeDecodeError, UnicodeEncodeError):
-            s.write(":{0}".format(obj.value.encode('utf-8')))
+            s.write(";{0}={1}".format(str_(key), str_(paramstr)))
+        s.write(":{0}".format(str_(obj.value)))
         if obj.behavior and not startedEncoded:
             obj.behavior.decode(obj)
         foldOneLine(outbuf, s.getvalue(), lineLength)
